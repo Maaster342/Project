@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import audioAsset from "../assets/voice-note.m4a.asset.json";
+
+const audioAsset = { url: "/voice-note.m4a" };
 
 export function VoiceNote({ onListened }: { onListened?: () => void } = {}) {
   const [open, setOpen] = useState(false);
