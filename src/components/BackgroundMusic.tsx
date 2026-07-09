@@ -77,6 +77,34 @@ export function BackgroundMusic() {
     };
   }, []);
 
+  // Try autoplay when ready; if browser blocks it, start on first user interaction.
+  useEffect(() => {
+    if (!ready) return;
+    const player = playerRef.current;
+    if (!player) return;
+
+    const tryPlay = () => {
+      try {
+        player.unMute?.();
+        player.setVolume(BASE_VOLUME);
+        player.playVideo();
+      } catch {}
+    };
+
+    // Attempt immediate autoplay (likely blocked by browser policy)
+    tryPlay();
+
+    const onInteract = () => {
+      tryPlay();
+    };
+    const events = ["pointerdown", "keydown", "touchstart"];
+    events.forEach((e) => window.addEventListener(e, onInteract, { once: true }));
+
+    return () => {
+      events.forEach((e) => window.removeEventListener(e, onInteract));
+    };
+  }, [ready]);
+
   const toggle = () => {
     const player = playerRef.current;
     if (!player || !readyRef.current) return;
