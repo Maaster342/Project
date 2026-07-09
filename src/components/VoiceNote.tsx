@@ -12,6 +12,19 @@ export function VoiceNote({ onListened }: { onListened?: () => void } = {}) {
 
   const openModal = () => {
     setOpen(true);
+    // Kick off playback synchronously in the user-gesture tick to avoid autoplay blocks.
+    const a = audioRef.current;
+    if (a) {
+      try {
+        a.currentTime = 0;
+        const p = a.play();
+        if (p && typeof p.then === "function") {
+          p.catch((err) => console.error("[VoiceNote] play failed:", err));
+        }
+      } catch (err) {
+        console.error("[VoiceNote] play threw:", err);
+      }
+    }
   };
 
   const toggle = () => {
@@ -172,37 +185,40 @@ export function VoiceNote({ onListened }: { onListened?: () => void } = {}) {
                 </button>
               </div>
 
-              <audio
-                ref={audioRef}
-                src={audioAsset.url}
-                preload="auto"
-                className="hidden"
-                onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
-                onPlay={() => {
-                  setPlaying(true);
-                  if (window.__bgMusicSetVolume) window.__bgMusicSetVolume(6);
-                }}
-                onPause={() => {
-                  setPlaying(false);
-                  if (window.__bgMusicSetVolume) window.__bgMusicSetVolume(25);
-                }}
-                onEnded={() => {
-                  setPlaying(false);
-                  if (window.__bgMusicSetVolume) window.__bgMusicSetVolume(25);
-                  onListened?.();
-                }}
-                onError={(e) => console.error("[VoiceNote] audio error", e.currentTarget.error, "src=", audioAsset.url)}
-                onTimeUpdate={(e) => {
-                  const t = e.currentTarget;
-                  setCurrent(t.currentTime);
-                  if (t.duration) setProgress((t.currentTime / t.duration) * 100);
-                }}
-              />
             </div>
           </div>
         </div>,
         document.body,
       )}
+
+      {/* Audio element lives outside the modal so it's always mounted and
+          play() can be called synchronously in the openModal gesture. */}
+      <audio
+        ref={audioRef}
+        src={audioAsset.url}
+        preload="auto"
+        className="hidden"
+        onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
+        onPlay={() => {
+          setPlaying(true);
+          if (window.__bgMusicSetVolume) window.__bgMusicSetVolume(6);
+        }}
+        onPause={() => {
+          setPlaying(false);
+          if (window.__bgMusicSetVolume) window.__bgMusicSetVolume(25);
+        }}
+        onEnded={() => {
+          setPlaying(false);
+          if (window.__bgMusicSetVolume) window.__bgMusicSetVolume(25);
+          onListened?.();
+        }}
+        onError={(e) => console.error("[VoiceNote] audio error", e.currentTarget.error, "src=", audioAsset.url)}
+        onTimeUpdate={(e) => {
+          const t = e.currentTarget;
+          setCurrent(t.currentTime);
+          if (t.duration) setProgress((t.currentTime / t.duration) * 100);
+        }}
+      />
     </>
   );
 }
