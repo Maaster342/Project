@@ -28,6 +28,9 @@ export function Gashapon() {
           <div className="text-center font-hand text-xl text-muted-foreground">
             Valid for unlimited co-op and zero sleep!!! :)
           </div>
+          <div className="mt-4 rounded-2xl bg-white/70 px-4 py-3 text-center font-hand text-lg text-foreground ring-1 ring-pink/30">
+            p.s. check your Steam account 👀🎮
+          </div>
         </div>
       </div>
     );
