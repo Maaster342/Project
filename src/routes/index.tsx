@@ -6,16 +6,16 @@ import { VoiceNote } from "../components/VoiceNote";
 import { Gashapon } from "../components/Gashapon";
 import { FavoritesTeaser } from "../components/FavoritesTeaser";
 import { Reveal } from "../components/Reveal";
-import mimoImg from "../assets/mimo.jpg";
-import s1 from "../assets/screenshot_1.png";
-import s2 from "../assets/screenshot_2.png";
-import s3 from "../assets/screenshot_3.png";
-import s4 from "../assets/screenshot_4.png";
-import s5 from "../assets/screenshot_5.png";
-import s6 from "../assets/screenshot_6.png";
-import s7 from "../assets/screenshot_7.png";
+import mimoImg from "../assets/mimo.jpg.asset.json";
+import s1 from "../assets/screenshot_1.png.asset.json";
+import s2 from "../assets/screenshot_2.png.asset.json";
+import s3 from "../assets/screenshot_3.png.asset.json";
+import s4 from "../assets/screenshot_4.png.asset.json";
+import s5 from "../assets/screenshot_5.png.asset.json";
+import s6 from "../assets/screenshot_6.png.asset.json";
+import s7 from "../assets/screenshot_7.png.asset.json";
 
-const SCREENSHOT_IMAGES = [s1, s2, s3, s4, s5, s6, s7];
+const SCREENSHOT_IMAGES = [s1.url, s2.url, s3.url, s4.url, s5.url, s6.url, s7.url];
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -321,7 +321,7 @@ function Index() {
                   className="group mx-auto mt-5 block aspect-square w-64 overflow-hidden rounded-3xl border-4 border-white shadow-lg ring-2 ring-mint transition hover:-translate-y-1 hover:shadow-xl"
                   aria-label="open Mimo's photo"
                 >
-                  <img src={mimoImg} alt="Mimo the cat" className="h-full w-full object-cover transition group-hover:scale-105" />
+                  <img src={mimoImg.url} alt="Mimo the cat" className="h-full w-full object-cover transition group-hover:scale-105" />
                 </button>
                 <div
                   className="mx-auto mt-6 max-w-xs rounded-2xl px-5 py-4 font-hand text-2xl font-semibold text-foreground shadow-lg"
@@ -411,7 +411,7 @@ function Index() {
               ✕
             </button>
             <div className="flex-1 overflow-hidden bg-black/5">
-              <img src={mimoImg} alt="Mimo the cat" className="mx-auto max-h-[75dvh] w-auto object-contain" />
+              <img src={mimoImg.url} alt="Mimo the cat" className="mx-auto max-h-[75dvh] w-auto object-contain" />
             </div>
             <div
               className="p-5 text-center font-hand text-2xl font-semibold text-foreground sm:p-6"

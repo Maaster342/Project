@@ -182,37 +182,39 @@ export function FavoritesTeaser() {
                 ))}
               </div>
             </div>
+          </div>,
+          document.body,
+        )}
 
-            {active && (
-              <div
-                className="fixed inset-0 z-[190] flex items-center justify-center bg-black/50 p-4"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setActive(null);
-                }}
+      {active && typeof document !== "undefined" &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 p-4 animate-soft-fade-in"
+            onClick={(e) => {
+              e.stopPropagation();
+              setActive(null);
+            }}
+          >
+            <div
+              className="relative w-full max-w-lg max-h-[85dvh] overflow-y-auto rounded-3xl p-8 shadow-2xl animate-pop-in"
+              onClick={(e) => e.stopPropagation()}
+              style={{ background: "linear-gradient(160deg, #fff, var(--pink-soft))" }}
+            >
+              <button
+                onClick={() => setActive(null)}
+                className="absolute right-4 top-4 h-9 w-9 rounded-full bg-white text-lg shadow hover:scale-110"
+                aria-label="close"
               >
-                <div
-                  className="relative w-full max-w-lg max-h-[85dvh] overflow-y-auto rounded-3xl bg-white p-8 shadow-2xl animate-pop-in"
-                  onClick={(e) => e.stopPropagation()}
-                  style={{ background: "linear-gradient(160deg, #fff, var(--pink-soft))" }}
-                >
-                  <button
-                    onClick={() => setActive(null)}
-                    className="absolute right-4 top-4 h-9 w-9 rounded-full bg-white text-lg shadow hover:scale-110"
-                    aria-label="close"
-                  >
-                    ✕
-                  </button>
-                  <div className="text-4xl">💗</div>
-                  <h3 className="mt-3 font-display text-2xl font-bold leading-snug">
-                    {active.title}
-                  </h3>
-                  <p className="mt-5 font-hand text-2xl leading-relaxed text-foreground">
-                    {active.reason}
-                  </p>
-                </div>
-              </div>
-            )}
+                ✕
+              </button>
+              <div className="text-4xl">💗</div>
+              <h3 className="mt-3 font-display text-2xl font-bold leading-snug">
+                {active.title}
+              </h3>
+              <p className="mt-5 font-hand text-2xl leading-relaxed text-foreground">
+                {active.reason}
+              </p>
+            </div>
           </div>,
           document.body,
         )}
